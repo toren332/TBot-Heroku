@@ -1,1 +1,1 @@
-web: python teleg_bot.py
+worker: python teleg_bot.py
