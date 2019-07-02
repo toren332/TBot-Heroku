@@ -14,14 +14,31 @@ import logging
 from aiogram.utils.executor import start_webhook
 
 
+class geocode():
+    def __init__(self, place):
+        url = f'https://geocode-maps.yandex.ru/1.x/?apikey=4f9623cd-be0a-4edc-8759-0d7d74593b33&geocode={place}&format=json'
+        r = requests.get(url)
+        self.latlang = []
+        self.response = r.json()
+        if self.response['response']['GeoObjectCollection']['metaDataProperty']['GeocoderResponseMetaData']['found'] == '0':
+            self.is_this = False
+        else:
+            self.is_this = True
+            self.latlang = self.response['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point'][
+                'pos'].split()
+            self.latlang[0] = float(self.latlang[0])
+            self.latlang[1] = float(self.latlang[1])
+            self.latlang = self.latlang[::-1]
+
+
 def is_this_place(place):
-    g = geocoder.yandex(place)
-    return g.ok
+    geo = geocode(place)
+    return geo.is_this
 
 
 def get_coordinates(place):
-    g = geocoder.yandex(place)
-    return g.latlng
+    geo = geocode(place)
+    return geo.latlang
 
 
 def taxi_how_much(place1, place2):
