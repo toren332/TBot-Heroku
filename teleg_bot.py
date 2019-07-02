@@ -6,7 +6,6 @@ from aiogram.dispatcher import FSMContext
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 import aiogram.utils.markdown as md
 from aiogram.types import ParseMode
-import geocoder
 import requests
 import math
 import os
